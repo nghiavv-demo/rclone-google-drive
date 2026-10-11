@@ -1,0 +1,36 @@
+name: Rclone Transfer Drive
+
+on:
+  workflow_dispatch: # Cho phép bạn bấm nút chạy thủ công trên GitHub
+
+jobs:
+  rclone-transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rclone
+        uses: AnimMouse/setup-rclone-action@v1
+        # Hoặc dùng lệnh cài đặt trực tiếp bên dưới nếu muốn:
+        # run: sudo -v ; curl https://rclone.org/install.sh | sudo bash
+
+      - name: Create Rclone Config Directory
+        run: mkdir -p ~/.config/rclone
+
+      - name: Inject Rclone Config from GitHub Secrets
+        run: |
+          echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
+
+      - name: Run Rclone Copy (Server-Side)
+        run: |
+          rclone copy drive-source:"Ten_Folder_Nguon" drive-dest:"Ten_Folder_Dich" \
+            --drive-server-side-copy \
+            --progress \
+            --transfers 8 \
+            --checkers 16 \
+            --drive-chunk-size 64M
+
+
+
+
