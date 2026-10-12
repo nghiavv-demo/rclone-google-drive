@@ -16,19 +16,24 @@ jobs:
       - name: Create Rclone Config Directory
         run: mkdir -p ~/.config/rclone
 
-      
-      
       - name: Inject Rclone Config from GitHub Secrets
         env:
           RCLONE_CONFIG_DATA: ${{ secrets.RCLONE_CONF }}
         run: |
           echo "$RCLONE_CONFIG_DATA" > ~/.config/rclone/rclone.conf
 
-
-
-      - name: Run Rclone Copy (Server-Side)
+      - name: Run Rclone Move (Server-Side)
         run: |
-          rclone copy googledrive1tb:"testrclone" gdrive:"Backup-vuvannghiawork" \
+          # Tạo biến thời gian theo định dạng yêu cầu
+          TIMESTAMP=$(date +"%Y-%m-%d-%H-%M-%S-%N")
+          
+          # Nối chuỗi thời gian vào tên thư mục đích (tạo thư mục con mới mỗi lần chạy)
+          DESTINATION="gdrive:Backup-vuvannghiawork/step-$TIMESTAMP"
+          
+          echo "Bắt đầu di chuyển dữ liệu tới: $DESTINATION"
+          
+          # Đổi copy thành move
+          rclone move googledrive1tb:"testrclone" "$DESTINATION" \
             --server-side-across-configs \
             --progress \
             --transfers 8 \
