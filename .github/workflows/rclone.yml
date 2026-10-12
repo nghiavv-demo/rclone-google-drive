@@ -23,7 +23,7 @@ jobs:
       - name: Run Rclone Copy (Server-Side)
         run: |
           rclone copy googledrive1tb:"testrclone" gdrive:"Backup-vuvannghiawork" \
-            --drive-server-side-copy \
+            --server-side-across-configs \
             --progress \
             --transfers 8 \
             --checkers 16 \
