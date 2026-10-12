@@ -24,13 +24,11 @@ jobs:
 
       - name: Run Rclone Copy (Server-Side)
         run: |
-          rclone copy drive-source:"Ten_Folder_Nguon" drive-dest:"Ten_Folder_Dich" \
+          rclone copy googledrive1tb:"testrclone" gdrive:"Backup-vuvannghiawork" \
             --drive-server-side-copy \
             --progress \
             --transfers 8 \
             --checkers 16 \
             --drive-chunk-size 64M
-
-
 
 
