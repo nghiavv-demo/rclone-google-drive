@@ -38,4 +38,5 @@ jobs:
             --progress \
             --transfers 8 \
             --checkers 16 \
-            --drive-chunk-size 64M
+            --drive-chunk-size 64M \
+            --delete-empty-src-dirs
