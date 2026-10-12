@@ -16,9 +16,15 @@ jobs:
       - name: Create Rclone Config Directory
         run: mkdir -p ~/.config/rclone
 
+      
+      
       - name: Inject Rclone Config from GitHub Secrets
+        env:
+          RCLONE_CONFIG_DATA: ${{ secrets.RCLONE_CONF }}
         run: |
-          echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
+          echo "$RCLONE_CONFIG_DATA" > ~/.config/rclone/rclone.conf
+
+
 
       - name: Run Rclone Copy (Server-Side)
         run: |
